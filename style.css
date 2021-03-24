@@ -8,10 +8,16 @@ body {
     padding: 10px;
 }
 .player1{
-    width: 45%;
-    height: 450px;
+    width: 40%;
+    padding-top: 4px;
+    padding-bottom: 8px;
+    background-color: lime;
+    color: white;
 }
 .player2{
-    width: 45%;
-    height: 450px;
+    width: 40%;
+    padding-top: 4px;
+    padding-bottom: 8px;
+    background-color: firebrick;
+    color: white;
 }

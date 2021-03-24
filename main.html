@@ -3,40 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Card Game</title>
+    <!--Below links the CSS and Javascript files to the html page-->
     <script src="index.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body onload="pageLoad()">
-    <div class="header">
+<body onload="pageLoad()"> <!--Causes the function pageLoad to run when the webpage loads-->
+    <div class="header"> <!--Creates a header called Card Game-->
         <h1>Card Game</h1>
     </div>
-    <h2 align="center">Login</h2>
-    <form id="login">
-        <div class="login">
+    <h2 align="center">Login</h2> <!--Creates a heading in the center of the page-->
+    <form id="login"> <!--Creates a form, this time to login-->
+        <div class="login"> <!--The first field of the form, used to input the player's username-->
             Username:
             <input type="text" id="username">
         </div>
-        <div class="login">
+        <div class="login"> <!--The second field of the form, used to input the player's password-->
             Password:
             <input type="password" id="password">
         </div>
-        <div class="login">
+        <div class="login"> <!--A submit button that assigns the player's inputs to variables in the Javascript file-->
             <input type="submit" value="Login">
         </div>
 
     </form>
-    <table width="100%" border="0">
-        <tr valign="top">
-            <td class="player1" bgcolor="#f0f0f0">
+    <table width="100%" border="0"> <!--Creates a table as wide as the webpage-->
+        <tr valign="top"> <!--Creates the first row of a table-->
+            <td class="player1"> <!--Creates the first column of the first row, displays 'Player 1'-->
                 <b>Player 1</b><br />
-
             </td>
-            <td>
-                <button onclick="pickup(deck, p1deck, p2deck, p1wins, p2wins, p1card, p2card)">Click Here</button>
+            <td> <!--Creates a second column but has a button in it that runs the pickup function when clicked-->
+                <button onclick="pickup(deck, p1deck, p2deck, p1wins, p2wins)">Next Round</button>
+                <h3>The Winner of the Round is...</h3>
             </td>
-            <td class="player2" bgcolor="#ab0fab">
+            <td class="player2"> <!--Creates a third column, displays 'Player 2'-->
                 <b>Player 2</b><br />
             </td>
+        </tr>
+        <tr> <!--Creates a second row to the table, with each cell in a different column-->
+            <td id="player1" class="player1">
+            </td>
+            <td id="winner-declaration">
+            </td>
+            <td id="player2" class="player2">
+            </td>
+        </tr>
+        <tr> <!--Creates a third row to the table-->
+            <td></td>
+            <td id="winner-reason"></td>
         </tr>
     </table>
 </body>
