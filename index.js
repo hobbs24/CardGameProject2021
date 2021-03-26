@@ -1,5 +1,5 @@
 let deck = [ //Declaring the Array of Records
-    {name: "Red 1", suit: "Red", value: "1", //The first element. Each element has an identifier (name) and belongs to 2 groups (suit and value)
+    {name: "Red 1", suit: "Red", value: "1", //The first element. Each element has the name, colour and value of their card
     }, {
         name: "Red 2", suit: "Red", value: "2",
     }, {
