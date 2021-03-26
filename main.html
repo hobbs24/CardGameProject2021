@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Card Game</title>
-    <!--Below links the CSS and Javascript files to the html page-->
+    <!--Below are links the CSS and Javascript files to the html page-->
     <script src="index.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body onload="pageLoad()"> <!--Causes the function pageLoad to run when the webpage loads-->
     <div class="header"> <!--Creates a header called Card Game-->
         <h1>Card Game</h1>
+        <ul align="left"> <!--Creating an unordered list to show instructions-->
+            <li>To play, enter each player's login down below.</li>
+            <li>When both players are logged in, click 'Next Round' to play.</li>
+            <li>After 15 rounds, the overall winner will be declared and their cards will be shown.</li>
+            <li>Click 'Play Again' to play the game again (although you will have to login again).</li>
+        </ul>
     </div>
     <h2 align="center">Login</h2> <!--Creates a heading in the center of the page-->
     <form id="login"> <!--Creates a form, this time to login-->
@@ -28,18 +34,18 @@
     </form>
     <table width="100%" border="0"> <!--Creates a table as wide as the webpage-->
         <tr valign="top"> <!--Creates the first row of a table-->
-            <td class="player1"> <!--Creates the first column of the first row, displays 'Player 1'-->
+            <td id="p1name" class="player1"> <!--Creates the first column of the first row, displays 'Player 1' until Player 1 logs in-->
                 <b>Player 1</b><br />
             </td>
             <td> <!--Creates a second column but has a button in it that runs the pickup function when clicked-->
                 <button onclick="pickup(deck, p1deck, p2deck, p1wins, p2wins)">Next Round</button>
                 <h3>The Winner of the Round is...</h3>
             </td>
-            <td class="player2"> <!--Creates a third column, displays 'Player 2'-->
+            <td id="p2name" class="player2"> <!--Creates a third column, displays 'Player 2', until Player 2 logs in-->
                 <b>Player 2</b><br />
             </td>
         </tr>
-        <tr> <!--Creates a second row to the table, with each cell in a different column-->
+        <tr> <!--Creates a second row to the table, with each cell in a different column, used to output what's written in the Javascript-->
             <td id="player1" class="player1">
             </td>
             <td id="winner-declaration">
@@ -48,6 +54,11 @@
             </td>
         </tr>
     </table>
-    <p id="winner-reason"></p>
+    <p id="winner-reason"></p> <!--Used to display the reason the round's winner won and below shows the deck of the overall winner-->
+    <div id="deck_outputs">
+    </div>
+    <div>
+        <button onclick="window.location = location.href">Play Again</button> <!--Reloads the page when clicked to allow for the user to play again-->
+    </div>
 </body>
 </html>
