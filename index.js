@@ -69,12 +69,13 @@ let p1name = 0 //Stores the names of players 1 and 2 and the password for player
 let p1password = 0
 let p2name = 0
 let just_logged_in = false //Used to show if a player just logged in or not
-//let authorised = false //Declares that the user hasn't authorised yet, preventing them from playing
+
 function pageLoad(){ //The first function to run. When the page loads, this function runs to allow input from the submit button for logging in
     document.getElementById("login").addEventListener("submit", processLogin) //If the submit button is clicked, the processLogin functions runs
 }
 function authorisation(){
-    let authorised_users = [{name:'Yaeger024', pass:'aot'}, {name: 'Excalibur', pass:'evLA55'}] //Array of authorised users (each in their own record) have their username and password declared
+    let authorised_users = [{name:'Yaeger024', pass:'aot'}, {name: 'Excalibur', pass:'evLA55'}]
+    //Array of authorised users (each in their own record) have their username and password declared
     let index=0 //Sets index to 0 to cycle through all indexes of the authorised_users array
     let username=document.getElementById("username").value //Assigns user input from the username field to variable username
     let password=document.getElementById("password").value //Assigns user input from the password field to variable password
@@ -83,7 +84,8 @@ function authorisation(){
     }
     else if((username!==p1name) || (password!==p1password)){ //If player 2 doesn't input player 1's login, their login details get searched for
         for(let i=0;i<authorised_users.length;i++){ //For loop that runs until either the username and password match or all elements have been checked
-            if((authorised_users[index].name===username) && (authorised_users[index].pass===password)){ //If statement checks to see if the inputted username=a stored username at index in the authorised_users array
+            if((authorised_users[index].name===username) && (authorised_users[index].pass===password)){
+                //If statement checks to see if the inputted username=a stored username at index in the authorised_users array
                 logged_in+=1 //Adds one to variable 'logged_in' to say how many players have logged in
                 document.getElementById("login").reset() //Resets the username and password fields
                 alert("Player has successfully logged in.")
@@ -196,10 +198,12 @@ function pickup(){ //The pickup function is declared when the pickup button is c
         else if((p1wins+p2wins)>=15){ //Runs once all the cards have been played
             alert("That is the end of the game") //Alerts the players that the game is over
             if(p1wins>p2wins){ //Checks to see if player 1 won the game overall
-                document.getElementById("deck_outputs").innerHTML = p1name+" wins with "+p1wins+" rounds won. Here is their deck: "+JSON.stringify(p1deck) //Displays player 1's deck if they won
+                document.getElementById("deck_outputs").innerHTML = p1name+" wins with "+p1wins+" rounds won. Here is their deck: "+JSON.stringify(p1deck)
+                //Displays player 1's deck if they won
             }
             else{
-                document.getElementById("deck_outputs").innerHTML = p2name+" wins with "+p2wins+" rounds won. Here is their deck: "+JSON.stringify(p2deck) //Displays player 2's deck if they won
+                document.getElementById("deck_outputs").innerHTML = p2name+" wins with "+p2wins+" rounds won. Here is their deck: "+JSON.stringify(p2deck)
+                //Displays player 2's deck if they won
             }
 
         }
