@@ -71,6 +71,7 @@ let p2name = 0
 let just_logged_in = false //Used to show if a player just logged in or not
 
 function pageLoad(){ //The first function to run. When the page loads, this function runs to allow input from the submit button for logging in
+    console.log("Deck before shuffling " +JSON.stringify(deck))
     document.getElementById("login").addEventListener("submit", processLogin) //If the submit button is clicked, the processLogin functions runs
 }
 function authorisation(){
@@ -133,6 +134,7 @@ function shuffle(deck) { //Runs the shuffle function with the array 'deck'
         deck[index] = temp //Assigning the temporary variable to its new spot
     }
     alert("Deck has been shuffled. You may now play.") //Alerts the user they can actually play the game now
+    console.log("Deck after shuffling " +JSON.stringify(deck))
     return(deck) //Returns deck to the function 'processLogin'
 }
 function pickup(){ //The pickup function is declared when the pickup button is clicked
@@ -144,16 +146,21 @@ function pickup(){ //The pickup function is declared when the pickup button is c
             let p2card=deck[0] //Assigns the new first element to variable 'p2card' as player 2's card
             document.getElementById("player2").innerHTML = p2card.name //Displays the name of player 2's card on the webpage
             deck.shift() //Removes the first element in the array again
+            console.log("Deck after losing 2 cards " +JSON.stringify(deck))
             if(p1card.suit===p2card.suit){ //Checks to see if the players' cards are the same colour
                 if(p1card.value>p2card.value){ //Checks to see if player 1's card has a higher value than player 2
                     p1deck.push(p1card.name, p2card.name) //Adds both players' card to player 1's deck (an array)
                     p1wins++ //Adds one to player 1's wins
+                    console.log("P1deck " +JSON.stringify(p1deck))
+                    console.log("P1wins " +p1wins)
                     document.getElementById("winner-declaration").innerHTML = p1name //Displays that player 1 won that round
                     document.getElementById("winner-reason").innerHTML = 'Due to having a greater card value' //Displays the reason player 1 beat player 2
                 }
                 else{//Runs if player 2's card has a higher value than player 1's
                     p2deck.push(p1card.name, p2card.name)  //Adds both players' cards to player 2's deck (an array)
                     p2wins++ //Adds one to player 2's wins
+                    console.log("P2deck " +JSON.stringify(p2deck))
+                    console.log("P2wins " +p2wins)
                     document.getElementById("winner-declaration").innerHTML = p2name
                     document.getElementById("winner-reason").innerHTML = 'Due to having a greater card value' //Displays the reason player 2 beat player 1
                 }
@@ -161,36 +168,48 @@ function pickup(){ //The pickup function is declared when the pickup button is c
             else if(p1card.suit==="Red"&&p2card.suit==="Black"){ //Checks to see if player 1 has the dominant card in this situation
                 p1deck.push(p1card.name, p2card.name)
                 p1wins++
+                console.log("P1deck " +JSON.stringify(p1deck))
+                console.log("P1wins " +p1wins)
                 document.getElementById("winner-declaration").innerHTML = p1name
                 document.getElementById("winner-reason").innerHTML = 'Due to having the dominant colour (Red beats Black)'
             }
             else if(p2card.suit==="Red"&&p1card.suit==="Black"){ //Checks to see if player 2 has the dominant card in this situation
                 p2deck.push(p1card.name, p2card.name)
                 p2wins++
+                console.log("P2deck " +JSON.stringify(p2deck))
+                console.log("P2wins " +p2wins)
                 document.getElementById("winner-declaration").innerHTML = p2name
                 document.getElementById("winner-reason").innerHTML = 'Due to having the dominant colour (Red beats Black)'
             }
             else if(p1card.suit==="Yellow"&&p2card.suit==="Red"){ //Checks to see if player 1 has the dominant card in this situation
                 p1deck.push(p1card.name, p2card.name)
                 p1wins++
+                console.log("P1deck " +JSON.stringify(p1deck))
+                console.log("P1wins " +p1wins)
                 document.getElementById("winner-declaration").innerHTML = p1name
                 document.getElementById("winner-reason").innerHTML = 'Due to having the dominant colour (Yellow beats Red)'
             }
             else if(p2card.suit==="Yellow"&&p1card.suit==="Red"){ //Checks to see if player 2 has the dominant card in this situation
                 p2deck.push(p1card.name, p2card.name)
                 p2wins++
+                console.log("P2deck " +JSON.stringify(p2deck))
+                console.log("P2wins " +p2wins)
                 document.getElementById("winner-declaration").innerHTML = p2name
                 document.getElementById("winner-reason").innerHTML = 'Due to having the dominant colour (Yellow beats Red)'
             }
             else if(p1card.suit==="Black"&&p2card.suit==="Yellow"){ //Checks to see if player 1 has the dominant card in this situation
                 p1deck.push(p1card.name, p2card.name)
                 p1wins++
+                console.log("P1deck " +JSON.stringify(p1deck))
+                console.log("P1wins " +p1wins)
                 document.getElementById("winner-declaration").innerHTML = p1name
                 document.getElementById("winner-reason").innerHTML = 'Due to having the dominant colour (Black beats Yellow)'
             }
             else if(p2card.suit==="Black"&&p1card.suit==="Yellow"){ //Checks to see if player 2 has the dominant card in this situation
                 p2deck.push(p1card.name, p2card.name)
                 p2wins++
+                console.log("P2deck " +JSON.stringify(p2deck))
+                console.log("P2wins " +p2wins)
                 document.getElementById("winner-declaration").innerHTML = p2name
                 document.getElementById("winner-reason").innerHTML = 'Due to having the dominant colour (Black beats Yellow)'
             }
