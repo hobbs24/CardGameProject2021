@@ -60,66 +60,75 @@ let deck = [ //Declaring the Array of Records
         name: "Yellow 10", suit: "Yellow", value: "10",
     }
 ]
-let p1deck=[] //Pre-declares the player's decks and win count
-let p2deck=[]
-let p1wins=0
-let p2wins=0
-let logged_in = 0 //Shows how many players have logged in
-let p1name = 0 //Stores the names of players 1 and 2 and the password for player 1
-let p1password = 0
-let p2name = 0
-let just_logged_in = false //Used to show if a player just logged in or not
+let p1Deck=[] //Pre-declares the player's decks and win count
+let p2Deck=[]
+let p1Wins=0
+let p2Wins=0
+let p1Card = 0 //Used to store the most recently picked up cards the players have
+let p2Card = 0
+let loggedIn = 0 //Shows how many players have logged in
+let p1Name = 0 //Stores the names of players 1 and 2 and the password for player 1 (With p1Password only being used temporarily)
+let p1Password = 0
+let p2Name = 0
+let username = 0 //username and password are used temporarily while authenticating
+let password = 0
+let justLoggedIn= false //Used to show if a player just logged in or not
+let winReason = 0 //Used to show why the player won that round
 
 function pageLoad(){ //The first function to run. When the page loads, this function runs to allow input from the submit button for logging in
     console.log("Deck before shuffling " +JSON.stringify(deck))
     document.getElementById("login").addEventListener("submit", processLogin) //If the submit button is clicked, the processLogin functions runs
 }
 function authorisation(){
-    let authorised_users = [{name:'Yaeger024', pass:'aot'}, {name: 'Excalibur', pass:'evLA55'}]
+    let authorisedUsers = [{name:'Yaeger024', pass:'aot'}, {name: 'Excalibur', pass:'evLA55'}]
     //Array of authorised users (each in their own record) have their username and password declared
-    let index=0 //Sets index to 0 to cycle through all indexes of the authorised_users array
-    let username=document.getElementById("username").value //Assigns user input from the username field to variable username
-    let password=document.getElementById("password").value //Assigns user input from the password field to variable password
-    if((username===p1name) && (password===p1password)){ //Checks to see if player 2 is trying to input player 1's login
+    console.log(username, password)
+    let index=0 //Sets index to 0 to cycle through all indexes of the authorisedUsers array
+    if((username===p1Name) && (password===p1Password)){ //Checks to see if player 2 is trying to input player 1's login
         alert("You can't input the same name and password in for both players") //Outputs a warning and doesn't allow them to play the game
     }
-    else if((username!==p1name) || (password!==p1password)){ //If player 2 doesn't input player 1's login, their login details get searched for
-        for(let i=0;i<authorised_users.length;i++){ //For loop that runs until either the username and password match or all elements have been checked
-            if((authorised_users[index].name===username) && (authorised_users[index].pass===password)){
-                //If statement checks to see if the inputted username=a stored username at index in the authorised_users array
-                logged_in+=1 //Adds one to variable 'logged_in' to say how many players have logged in
+    else if((username!==p1Name) || (password!==p1Password)){ //If player 2 doesn't input player 1's login, their login details get searched for
+        for(let i=0;i<authorisedUsers.length;i++){ //For loop that runs until either the username and password match or all elements have been checked
+            if((authorisedUsers[index].name===username) && (authorisedUsers[index].pass===password)){
+                //If statement checks to see if the inputted username=a stored username at index in the authorisedUsers array
+                loggedIn+=1 //Adds one to variable 'loggedIn' to say how many players have logged in
                 document.getElementById("login").reset() //Resets the username and password fields
                 alert("Player has successfully logged in.")
-                if(logged_in===1){ //Checks to see if player 1 has logged in,
-                    p1name = username //Assigns inputted username to p1name
-                    p1password = password //Assigns inputted password to password
-                    document.getElementById("p1name").innerHTML = p1name //Outputs player 1's name to the html page
-                    just_logged_in = true //Sets variable to true so that a below if statement doesn't run when player 1 successfully logs in
+                if(loggedIn===1){ //Checks to see if player 1 has logged in,
+                    p1Name = username //Assigns inputted username to p1Name
+                    p1Password = password //Assigns inputted password to password
+                    document.getElementById("p1Name").innerHTML = p1Name //Outputs player 1's name to the html page
+                    justLoggedIn = true //Sets variable to true so that a below if statement doesn't run when player 1 successfully logs in
                 }
-                if(logged_in===2) {
-                    p2name = username //Assigns inputted username to variable
-                    document.getElementById("p2name").innerHTML = p2name //Outputs player 2's name to the html page
+                if(loggedIn===2) {
+                    p2Name = username //Assigns inputted username to variable
+                    document.getElementById("p2Name").innerHTML = p2Name //Outputs player 2's name to the html page
                     shuffle(deck) //Once both players have logged in, the deck gets shuffled
                 }
                 break //Ends the for loop if a player has logged in
             }
             else{
                 index++ //If no username was found, the next index is checked
-                just_logged_in = false //Sets variable to false so that the below variable can run if a player doesn't manage to login successfully
+                justLoggedIn = false //Sets variable to false so that the below variable can run if a player doesn't manage to login successfully
             }
         }
-        if(!just_logged_in&&logged_in<2){ //Runs if at least one player hasn't logged in and there's been an attempt after player 1 logged in
+        if(!justLoggedIn&&loggedIn<2){ //Runs if at least one player hasn't logged in and there's been an attempt after player 1 logged in
             alert("Your credentials are wrong.") //User is alerted their credentials are wrong and can try to login again
         }
     }
-    return(logged_in)
+    return(loggedIn)
 }
 function processLogin(){ //The function to ensure only authorised users can play
     event.preventDefault() //Prevents the submit button from submitting a form
-    if(logged_in<2){ //If at least one player hasn't been authorised, this if statement runs
-        authorisation(logged_in) //Calls the authorisation function
+    username=document.getElementById("username").value //Assigns user input from the username field to variable username
+    password=document.getElementById("password").value //Assigns user input from the password field to variable password
+    if((username.length===0) || (password.length===0)){
+        alert("You didn't input anything into at least one of the fields, try again")
     }
-    else if(logged_in===2){ //If both players have logged in, this runs
+    else if(loggedIn<2){ //If at least one player hasn't been authorised, this if statement runs
+        authorisation(loggedIn, username, password) //Calls the authorisation function
+    }
+    else if(loggedIn===2){ //If both players have logged in, this runs
         shuffle(deck) //Calls the shuffle function and runs it with the array 'deck'
     }
 }
@@ -137,91 +146,75 @@ function shuffle(deck) { //Runs the shuffle function with the array 'deck'
     console.log("Deck after shuffling " +JSON.stringify(deck))
     return(deck) //Returns deck to the function 'processLogin'
 }
+function p1RoundWins(){
+    p1Deck.push(p1Card.name, p2Card.name) //Adds both players' card to player 1's deck (an array)
+    p1Wins++ //Adds one to player 1's wins
+    console.log("P1Deck "+JSON.stringify(p1Deck))
+    console.log("P1Wins "+p1Wins)
+    document.getElementById("winner-declaration").innerHTML = p1Name //Displays that player 1 won that round
+    document.getElementById("winner-reason").innerHTML = "Due to having the "+winReason //Displays the reason player 1 beat player 2
+}
+function p2RoundWins(){
+    p2Deck.push(p1Card.name, p2Card.name)  //Adds both players' cards to player 2's deck (an array)
+    p2Wins++ //Adds one to player 2's wins
+    console.log(JSON.stringify(p2Deck))
+    console.log(p2Wins)
+    document.getElementById("winner-declaration").innerHTML = p2Name
+    document.getElementById("winner-reason").innerHTML = "Due to having the "+winReason //Displays the reason player 2 beat player 1
+}
 function pickup(){ //The pickup function is declared when the pickup button is clicked
-    if(logged_in===2){
-        if((p1wins+p2wins)<15){ //Ensures that not all the cards have bee played yet
-            let p1card=deck[0] //Assigns the first element to variable 'p1card' as player 1's card
-            document.getElementById("player1").innerHTML = p1card.name //Displays the name of player 1's card on the webpage
+    console.log(loggedIn)
+    if(loggedIn===2){
+        if((p1Wins+p2Wins)<15){ //Ensures that not all the cards have bee played yet
+            p1Card=deck[0] //Assigns the first element to variable 'p1Card' as player 1's card
+            document.getElementById("player1").innerHTML = p1Card.name //Displays the name of player 1's card on the webpage
             deck.shift() //Removes the first element of the array 'deck' and shifts everything else down by one
-            let p2card=deck[0] //Assigns the new first element to variable 'p2card' as player 2's card
-            document.getElementById("player2").innerHTML = p2card.name //Displays the name of player 2's card on the webpage
+            p2Card=deck[0] //Assigns the new first element to variable 'p2Card' as player 2's card
+            document.getElementById("player2").innerHTML = p2Card.name //Displays the name of player 2's card on the webpage
             deck.shift() //Removes the first element in the array again
             console.log("Deck after losing 2 cards " +JSON.stringify(deck))
-            if(p1card.suit===p2card.suit){ //Checks to see if the players' cards are the same colour
-                if(p1card.value>p2card.value){ //Checks to see if player 1's card has a higher value than player 2
-                    p1deck.push(p1card.name, p2card.name) //Adds both players' card to player 1's deck (an array)
-                    p1wins++ //Adds one to player 1's wins
-                    console.log("P1deck " +JSON.stringify(p1deck))
-                    console.log("P1wins " +p1wins)
-                    document.getElementById("winner-declaration").innerHTML = p1name //Displays that player 1 won that round
-                    document.getElementById("winner-reason").innerHTML = 'Due to having a greater card value' //Displays the reason player 1 beat player 2
+            if(p1Card.suit===p2Card.suit){ //Checks to see if the players' cards are the same colour
+                winReason = "greater number"
+                if(p1Card.value>p2Card.value){ //Checks to see if player 1's card has a higher value than player 2
+                    p1RoundWins()
                 }
                 else{//Runs if player 2's card has a higher value than player 1's
-                    p2deck.push(p1card.name, p2card.name)  //Adds both players' cards to player 2's deck (an array)
-                    p2wins++ //Adds one to player 2's wins
-                    console.log("P2deck " +JSON.stringify(p2deck))
-                    console.log("P2wins " +p2wins)
-                    document.getElementById("winner-declaration").innerHTML = p2name
-                    document.getElementById("winner-reason").innerHTML = 'Due to having a greater card value' //Displays the reason player 2 beat player 1
+                    p2RoundWins()
                 }
             }
-            else if(p1card.suit==="Red"&&p2card.suit==="Black"){ //Checks to see if player 1 has the dominant card in this situation
-                p1deck.push(p1card.name, p2card.name)
-                p1wins++
-                console.log("P1deck " +JSON.stringify(p1deck))
-                console.log("P1wins " +p1wins)
-                document.getElementById("winner-declaration").innerHTML = p1name
-                document.getElementById("winner-reason").innerHTML = 'Due to having the dominant colour (Red beats Black)'
+            else if(p1Card.suit==="Red"&&p2Card.suit==="Black"){ //Checks to see if player 1 has the dominant card in this situation
+                winReason = "dominant colour (Red beats Black)"
+                p1RoundWins()
             }
-            else if(p2card.suit==="Red"&&p1card.suit==="Black"){ //Checks to see if player 2 has the dominant card in this situation
-                p2deck.push(p1card.name, p2card.name)
-                p2wins++
-                console.log("P2deck " +JSON.stringify(p2deck))
-                console.log("P2wins " +p2wins)
-                document.getElementById("winner-declaration").innerHTML = p2name
-                document.getElementById("winner-reason").innerHTML = 'Due to having the dominant colour (Red beats Black)'
+            else if(p2Card.suit==="Red"&&p1Card.suit==="Black"){ //Checks to see if player 2 has the dominant card in this situation
+                winReason = "dominant colour (Red beats Black)"
+                p2RoundWins()
             }
-            else if(p1card.suit==="Yellow"&&p2card.suit==="Red"){ //Checks to see if player 1 has the dominant card in this situation
-                p1deck.push(p1card.name, p2card.name)
-                p1wins++
-                console.log("P1deck " +JSON.stringify(p1deck))
-                console.log("P1wins " +p1wins)
-                document.getElementById("winner-declaration").innerHTML = p1name
-                document.getElementById("winner-reason").innerHTML = 'Due to having the dominant colour (Yellow beats Red)'
+            else if(p1Card.suit==="Yellow"&&p2Card.suit==="Red"){ //Checks to see if player 1 has the dominant card in this situation
+                winReason = "dominant colour (Yellow beats Red)"
+                p1RoundWins()
             }
-            else if(p2card.suit==="Yellow"&&p1card.suit==="Red"){ //Checks to see if player 2 has the dominant card in this situation
-                p2deck.push(p1card.name, p2card.name)
-                p2wins++
-                console.log("P2deck " +JSON.stringify(p2deck))
-                console.log("P2wins " +p2wins)
-                document.getElementById("winner-declaration").innerHTML = p2name
-                document.getElementById("winner-reason").innerHTML = 'Due to having the dominant colour (Yellow beats Red)'
+            else if(p2Card.suit==="Yellow"&&p1Card.suit==="Red"){ //Checks to see if player 2 has the dominant card in this situation
+                winReason = "dominant colour (Yellow beats Red)"
+                p2RoundWins()
             }
-            else if(p1card.suit==="Black"&&p2card.suit==="Yellow"){ //Checks to see if player 1 has the dominant card in this situation
-                p1deck.push(p1card.name, p2card.name)
-                p1wins++
-                console.log("P1deck " +JSON.stringify(p1deck))
-                console.log("P1wins " +p1wins)
-                document.getElementById("winner-declaration").innerHTML = p1name
-                document.getElementById("winner-reason").innerHTML = 'Due to having the dominant colour (Black beats Yellow)'
+            else if(p1Card.suit==="Black"&&p2Card.suit==="Yellow"){ //Checks to see if player 1 has the dominant card in this situation
+                winReason = "dominant colour (Black beats Yellow)"
+                p1RoundWins()
             }
-            else if(p2card.suit==="Black"&&p1card.suit==="Yellow"){ //Checks to see if player 2 has the dominant card in this situation
-                p2deck.push(p1card.name, p2card.name)
-                p2wins++
-                console.log("P2deck " +JSON.stringify(p2deck))
-                console.log("P2wins " +p2wins)
-                document.getElementById("winner-declaration").innerHTML = p2name
-                document.getElementById("winner-reason").innerHTML = 'Due to having the dominant colour (Black beats Yellow)'
+            else if(p2Card.suit==="Black"&&p1Card.suit==="Yellow"){ //Checks to see if player 2 has the dominant card in this situation
+                winReason = "dominant colour (Black beats Yellow)"
+                p2RoundWins()
             }
         }
-        else if((p1wins+p2wins)>=15){ //Runs once all the cards have been played
+        else if((p1Wins+p2Wins)>=15){ //Runs once all the cards have been played
             alert("That is the end of the game") //Alerts the players that the game is over
-            if(p1wins>p2wins){ //Checks to see if player 1 won the game overall
-                document.getElementById("deck_outputs").innerHTML = p1name+" wins with "+p1wins+" rounds won. Here is their deck: "+JSON.stringify(p1deck)
+            if(p1Wins>p2Wins){ //Checks to see if player 1 won the game overall
+                document.getElementById("deck_outputs").innerHTML = p1Name+" wins with "+p1Wins+" rounds won. Here is their deck: "+JSON.stringify(p1Deck)
                 //Displays player 1's deck if they won
             }
             else{
-                document.getElementById("deck_outputs").innerHTML = p2name+" wins with "+p2wins+" rounds won. Here is their deck: "+JSON.stringify(p2deck)
+                document.getElementById("deck_outputs").innerHTML = p2Name+" wins with "+p2Wins+" rounds won. Here is their deck: "+JSON.stringify(p2Deck)
                 //Displays player 2's deck if they won
             }
 
